@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/take_out?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: ZSWA7SBP0R#&en6KH
+    type: com.zaxxer.hikari.HikariDataSource
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+logging:
+  level:
+    root: info
+server:
+  shutdown: graceful
+  port: 80

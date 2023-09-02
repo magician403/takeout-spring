@@ -1,16 +1,20 @@
 package com.example.takeout.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Data;
 
-@TableName(value ="employee")
+/**
+ * 
+ * @TableName category
+ */
+@TableName(value ="category")
 @Data
-public class EmployeeEntity implements Serializable {
+public class CategoryEntity implements Serializable {
     /**
      * 
      */
@@ -18,58 +22,45 @@ public class EmployeeEntity implements Serializable {
     private Long id;
 
     /**
-     * 用户id
+     * 类型1菜品分类2套餐分类
      */
-    private Long userId;
+    private Integer type;
 
     /**
-     * 员工姓名
+     * 分类名称
      */
     private String name;
 
     /**
-     * 手机号
+     * 顺序
      */
-    private String phone;
+    private Integer sort;
 
     /**
-     * 性别,0为男,1为女
-     */
-    private Integer sex;
-
-    /**
-     * 身份证号
-     */
-    private String idNumber;
-
-    /**
-     * 状态,0禁用1启用
+     * 分类状态0禁用1启用
      */
     private Integer status;
 
     /**
-     * 创建时间
+     * 
      */
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 
      */
     private LocalDateTime updateTime;
 
     /**
-     * 创建人id
+     * 
      */
     private Long createUser;
 
     /**
-     * 修改人id
+     * 
      */
     private Long updateUser;
 
-    /**
-     * 是否删除
-     */
-    private Integer deleted;
-
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

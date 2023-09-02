@@ -1,16 +1,21 @@
 package com.example.takeout.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-@TableName(value ="employee")
+/**
+ * 
+ * @TableName set_meal
+ */
+@TableName(value ="set_meal")
 @Data
-public class EmployeeEntity implements Serializable {
+public class SetMealEntity implements Serializable {
     /**
      * 
      */
@@ -18,34 +23,34 @@ public class EmployeeEntity implements Serializable {
     private Long id;
 
     /**
-     * 用户id
+     * 菜品分类id
      */
-    private Long userId;
+    private Long categoryId;
 
     /**
-     * 员工姓名
+     * 套餐名称
      */
     private String name;
 
     /**
-     * 手机号
+     * 套餐价格
      */
-    private String phone;
+    private BigDecimal price;
 
     /**
-     * 性别,0为男,1为女
-     */
-    private Integer sex;
-
-    /**
-     * 身份证号
-     */
-    private String idNumber;
-
-    /**
-     * 状态,0禁用1启用
+     * 售卖状态 0:停售 1:起售
      */
     private Integer status;
+
+    /**
+     * 描述信息
+     */
+    private String description;
+
+    /**
+     * 图片
+     */
+    private String image;
 
     /**
      * 创建时间
@@ -53,23 +58,20 @@ public class EmployeeEntity implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private LocalDateTime updateTime;
 
     /**
-     * 创建人id
+     * 创建人
      */
     private Long createUser;
 
     /**
-     * 修改人id
+     * 修改人
      */
     private Long updateUser;
 
-    /**
-     * 是否删除
-     */
-    private Integer deleted;
-
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

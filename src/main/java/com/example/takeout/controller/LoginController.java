@@ -1,7 +1,7 @@
 package com.example.takeout.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.takeout.constant.UserDetailsKeyConstant;
+import com.example.takeout.constant.UserDetailsKey;
 import com.example.takeout.dto.LoginDto;
 import com.example.takeout.entity.UserEntity;
 import com.example.takeout.exception.UsernamePasswordException;
@@ -50,9 +50,9 @@ public class LoginController {
         }
         Map<String, Object> details = new HashMap<>();
         LambdaQueryWrapper<UserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(UserEntity::getUserId).eq(UserEntity::getUsername, username);
-        Long userId = userService.getOne(queryWrapper).getUserId();
-        details.put(UserDetailsKeyConstant.USER_ID, userId);
+        queryWrapper.select(UserEntity::getId).eq(UserEntity::getUsername, username);
+        Long userId = userService.getOne(queryWrapper).getId();
+        details.put(UserDetailsKey.USER_ID, userId);
         authenticatedToken.setDetails(details);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authenticatedToken);

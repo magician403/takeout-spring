@@ -9,11 +9,11 @@ import lombok.Data;
 
 /**
  * 
- * @TableName user
+ * @TableName dish_flavor
  */
-@TableName(value ="user")
+@TableName(value ="dish_flavor")
 @Data
-public class UserEntity implements Serializable {
+public class DishFlavorEntity implements Serializable {
     /**
      * 
      */
@@ -21,24 +21,19 @@ public class UserEntity implements Serializable {
     private Long id;
 
     /**
-     * 用户名
+     * 菜品
      */
-    private String username;
+    private Long dishId;
 
     /**
-     * hash后的密码
+     * 口味名称
      */
-    private String hashedPassword;
+    private String name;
 
     /**
-     * 0正常1异常
+     * 口味数据list
      */
-    private Integer status;
-
-    /**
-     * 是否删除
-     */
-    private Integer deleted;
+    private String value;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

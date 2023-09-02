@@ -1,75 +1,75 @@
 package com.example.takeout.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@TableName(value ="employee")
+import lombok.Data;
+
+@TableName(value = "dish")
 @Data
-public class EmployeeEntity implements Serializable {
+public class DishEntity implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 用户id
-     */
-    private Long userId;
-
-    /**
-     * 员工姓名
+     * 菜品名称
      */
     private String name;
 
     /**
-     * 手机号
+     * 菜品分类id
      */
-    private String phone;
+    private Long categoryId;
 
     /**
-     * 性别,0为男,1为女
+     * 菜品价格
      */
-    private Integer sex;
+    private BigDecimal price;
 
     /**
-     * 身份证号
+     * 图片
      */
-    private String idNumber;
+    private String image;
 
     /**
-     * 状态,0禁用1启用
+     * 描述信息
+     */
+    private String description;
+
+    /**
+     * 0停售1起售
      */
     private Integer status;
 
     /**
-     * 创建时间
+     *
      */
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     *
      */
     private LocalDateTime updateTime;
 
     /**
-     * 创建人id
+     *
      */
     private Long createUser;
 
     /**
-     * 修改人id
+     *
      */
     private Long updateUser;
 
-    /**
-     * 是否删除
-     */
-    private Integer deleted;
-
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

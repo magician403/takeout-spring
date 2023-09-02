@@ -1,6 +1,7 @@
 package com.example.takeout.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.takeout.constant.UserStatus;
 import com.example.takeout.entity.UserEntity;
 import com.example.takeout.entity.UserRoleEntity;
 import com.example.takeout.mapper.UserMapper;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -27,10 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户" + username + "不存在");
         }
+
         LambdaQueryWrapper<UserRoleEntity> queryWrapper2 = new LambdaQueryWrapper<>();
-        queryWrapper2.select(UserRoleEntity::getRole);
-        queryWrapper2.eq(UserRoleEntity::getUserId, user.getUserId());
+        queryWrapper2.select(UserRoleEntity::getRole).eq(UserRoleEntity::getUserId, user.getId());
         String[] roles = userRoleMapper.selectObjs(queryWrapper2).toArray(new String[0]);
-        return User.withUsername(username).password(user.getHashedPassword()).roles(roles).build();
+        return User.withUsername(username).password(user.getHashedPassword()).roles(roles).accountLocked(Objects.equals(user.getStatus(), UserStatus.DISABLE)).build();
     }
 }

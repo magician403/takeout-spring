@@ -9,12 +9,12 @@
                  inner join user on employee.user_id = user.id
         where employee.deleted = 0
     </sql>
-    <select id="selectDisplayedInfoByName" resultType="com.example.takeout.dto.EmployeeDisplayedDto">
+    <select id="selectEmployeeByName" resultType="com.example.takeout.dto.EmployeeDto">
         <include refid="displayedEmployee"/>
         and employee.name = #{name}
         order by employee.update_time desc
     </select>
-    <select id="getDisplayedInfoByUserId" resultType="com.example.takeout.dto.EmployeeDisplayedDto">
+    <select id="selectEmployeeByUserId" resultType="com.example.takeout.dto.EmployeeDto">
         <include refid="displayedEmployee"/>
         and employee.user_id = #{user_id}
     </select>

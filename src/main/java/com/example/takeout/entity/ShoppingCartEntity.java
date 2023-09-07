@@ -9,10 +9,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Data;
 
-/**
- * 
- * @TableName shopping_cart
- */
 @TableName(value ="shopping_cart")
 @Data
 public class ShoppingCartEntity implements Serializable {
@@ -66,7 +62,4 @@ public class ShoppingCartEntity implements Serializable {
      * 创建时间
      */
     private LocalDateTime createTime;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

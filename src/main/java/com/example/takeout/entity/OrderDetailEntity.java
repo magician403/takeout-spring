@@ -1,17 +1,13 @@
 package com.example.takeout.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import lombok.Data;
 
-/**
- * 
- * @TableName order_detail
- */
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 @TableName(value ="order_detail")
 @Data
 public class OrderDetailEntity implements Serializable {
@@ -60,7 +56,4 @@ public class OrderDetailEntity implements Serializable {
      * 金额
      */
     private BigDecimal amount;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

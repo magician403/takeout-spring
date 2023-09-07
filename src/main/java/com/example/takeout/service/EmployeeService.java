@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.takeout.constant.Deleted;
 import com.example.takeout.constant.UserStatus;
-import com.example.takeout.dto.AddEmployeeDto;
-import com.example.takeout.dto.EmployeeDisplayedDto;
-import com.example.takeout.dto.UpdateEmployeeDto;
+import com.example.takeout.dto.EmployeeDto;
 import com.example.takeout.entity.EmployeeEntity;
 import com.example.takeout.entity.UserEntity;
 import com.example.takeout.entity.UserRoleEntity;
@@ -17,15 +15,11 @@ import com.example.takeout.mapper.EmployeeMapper;
 import com.example.takeout.mapper.UserMapper;
 import com.example.takeout.mapper.UserRoleMapper;
 import jakarta.annotation.Resource;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
-@PreAuthorize("hasRole('EMPLOYEE')")
 public class EmployeeService {
     @Resource
     private EmployeeMapper employeeMapper;
@@ -37,23 +31,19 @@ public class EmployeeService {
     private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void addEmployee(AddEmployeeDto addEmployeeDto, Long createdUser) {
+    public void addEmployee(EmployeeDto employeeDto) {
         EmployeeEntity employee = new EmployeeEntity();
         UserEntity user = new UserEntity();
         UserRoleEntity userRole = new UserRoleEntity();
 
-        BeanUtil.copyProperties(addEmployeeDto, employee);
-        BeanUtil.copyProperties(addEmployeeDto, user);
+        BeanUtil.copyProperties(employeeDto, employee);
+        BeanUtil.copyProperties(employeeDto, user);
 
         employee.setDeleted(Deleted.FALSE);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setCreateUser(createdUser);
-        employee.setUpdateUser(createdUser);
 
         user.setDeleted(Deleted.FALSE);
         user.setStatus(UserStatus.ENABLE);
-        user.setHashedPassword(passwordEncoder.encode(addEmployeeDto.getPassword()));
+        user.setHashedPassword(passwordEncoder.encode(employeeDto.getPassword()));
 
         try {
             userMapper.insert(user);
@@ -69,37 +59,32 @@ public class EmployeeService {
         userRoleMapper.insert(userRole);
     }
 
-    public Page<EmployeeDisplayedDto> pageQueryByName(String name, long currentPageNumber, long pageSize) {
-        Page<EmployeeDisplayedDto> page = new Page<>();
-        page.setCurrent(currentPageNumber);
-        page.setSize(pageSize);
-        employeeMapper.selectDisplayedInfoByName(page, name);
+    public Page<EmployeeDto> pageEmployeeByName(String name, long currentPageNumber, long pageSize) {
+        Page<EmployeeDto> page = new Page<>(currentPageNumber, pageSize);
+        employeeMapper.selectEmployeeByName(page, name);
         return page;
     }
 
-    public EmployeeDisplayedDto getDisplayedInfoByUserId(Long userId) {
-        return employeeMapper.getDisplayedInfoByUserId(userId);
+    public EmployeeDto getEmployeeByUserId(Long userId) {
+        return employeeMapper.selectEmployeeByUserId(userId);
     }
 
     @Transactional
-    public void updateEmployeeByUserId(Long updateUser, UpdateEmployeeDto updateEmployeeDto) {
+    public void updateEmployeeByUserId(EmployeeDto employeeDto) {
         EmployeeEntity employee = new EmployeeEntity();
-        BeanUtil.copyProperties(updateEmployeeDto, employee);
-        employee.setUpdateUser(updateUser);
-        employee.setUpdateTime(LocalDateTime.now());
+        BeanUtil.copyProperties(employeeDto, employee);
 
         try {
             employeeMapper.update(employee, new LambdaQueryWrapper<EmployeeEntity>().eq(EmployeeEntity::getUserId, employee.getUserId()));
         } catch (Exception e) {
             throw new UserIdNotExistException();
         }
-
         UserEntity user = new UserEntity();
-        BeanUtil.copyProperties(updateEmployeeDto, user);
-        if (updateEmployeeDto.getPassword() != null) {
-            user.setHashedPassword(passwordEncoder.encode(updateEmployeeDto.getPassword()));
+        BeanUtil.copyProperties(employeeDto, user);
+        if (employeeDto.getPassword() != null) {
+            user.setHashedPassword(passwordEncoder.encode(employeeDto.getPassword()));
         }
-        if (updateEmployeeDto.getUsername() != null || updateEmployeeDto.getPassword() != null) {
+        if (employeeDto.getUsername() != null || employeeDto.getPassword() != null) {
             try {
                 userMapper.updateById(user);
             } catch (Exception e) {

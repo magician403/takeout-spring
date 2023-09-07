@@ -1,3 +1,4 @@
+create database take_out;
 use take_out;
 create table category
 (
@@ -26,7 +27,8 @@ create table dish
     create_time datetime                     not null,
     update_time datetime                     not null,
     create_user bigint unsigned              not null,
-    update_user bigint unsigned              not null
+    update_user bigint unsigned              not null,
+    index idx_categoryid (category_id)
 )
     collate = utf8mb4_unicode_ci
     auto_increment = 1;
@@ -53,16 +55,16 @@ create table user
 create table employee
 (
     id          bigint unsigned auto_increment primary key,
-    user_id     bigint unsigned  not null comment '用户id',
-    name        varchar(32)      not null comment '员工姓名',
-    phone       varchar(16)      not null comment '手机号',
-    sex         tinyint unsigned not null comment '性别,0为男,1为女',
-    id_number   varchar(18)      not null comment '身份证号',
-    create_time datetime         not null comment '创建时间',
-    update_time datetime         not null comment '修改时间',
-    create_user bigint unsigned  not null comment '创建人id',
-    update_user bigint unsigned  not null comment '修改人id',
-    deleted     tinyint unsigned          default '0' not null comment '是否删除'
+    user_id     bigint unsigned unique       not null comment '用户id',
+    name        varchar(32)                  not null comment '员工姓名',
+    phone       varchar(16)                  not null comment '手机号',
+    sex         tinyint unsigned             not null comment '性别,0为男,1为女',
+    id_number   varchar(18)                  not null comment '身份证号',
+    create_time datetime                     not null comment '创建时间',
+    update_time datetime                     not null comment '修改时间',
+    create_user bigint unsigned              not null comment '创建人id',
+    update_user bigint unsigned              not null comment '修改人id',
+    deleted     tinyint unsigned default '0' not null comment '是否删除'
 )
     collate = utf8mb4_unicode_ci
     auto_increment = 1;
@@ -130,7 +132,7 @@ create table set_meal
     collate = utf8mb4_unicode_ci
     auto_increment = 1;
 
-create table setmeal_dish
+create table set_meal_dish
 (
     id          bigint unsigned auto_increment primary key,
     set_meal_id bigint unsigned        not null comment '套餐id',

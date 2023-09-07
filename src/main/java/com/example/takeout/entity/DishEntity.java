@@ -1,15 +1,13 @@
 package com.example.takeout.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import lombok.Data;
 
 @TableName(value = "dish")
 @Data
@@ -70,6 +68,4 @@ public class DishEntity implements Serializable {
      */
     private Long updateUser;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }
